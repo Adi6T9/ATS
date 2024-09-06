@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load allauth %}
+
+{% block head_title %}
+    Applied Jobs | ATS
+{% endblock head_title %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <h1 class="text-2xl font-bold mb-6">Jobs You've Applied For</h1>
+
+    <!-- Messages block -->
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="bg-{{ message.tags }}-200 text-{{ message.tags }}-700 p-4 rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if applications %}
+        <ul class="space-y-4">
+            {% for application in applications %}
+                <li class="border p-4 rounded shadow-sm">
+                    <h2 class="text-xl font-semibold">{{ application.job_posting.title }}</h2>
+                    <!-- Render the rich text description of the job applied for -->
+                    <div class="prose max-w-none">
+                        {{ application.job_posting.description|safe }}
+                    </div>
+                    <p><strong>Applied on:</strong> {{ application.created_at }}</p>
+                    <p><strong>Status:</strong> {{ application.get_status_display }}</p>
+                    <!-- Optional: Add a link or additional info based on status -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have not applied to any jobs yet.</p>
+    {% endif %}
+</div>
+{% endblock content %}
+
+

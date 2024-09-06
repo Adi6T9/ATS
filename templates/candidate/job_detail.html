@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load allauth %}
+
+{% block head_title %}
+    {{ job.title }} | Job Details
+{% endblock head_title %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <h1 class="text-2xl font-bold mb-4">{{ job.title }}</h1>
+
+    <!-- Messages block -->
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="bg-{{ message.tags }}-200 text-{{ message.tags }}-700 p-4 rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Render the rich text description -->
+    <div class="prose max-w-none">
+        {{ job.description|safe }}
+    </div>
+    <p class="mt-4"><strong>Location:</strong> {{ job.location }}</p>
+    <p><strong>Posted on:</strong> {{ job.posted_date }}</p>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'apply_for_job' job.id %}" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Apply Now</a>
+    {% else %}
+        <p class="text-red-500 mt-4">You need to <a href="{% url 'account_login' %}" class="underline">login</a> to apply for this job.</p>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load allauth %}
+
+{% block head_title %}
+    Candidate Profile | ATS
+{% endblock head_title %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <h1 class="text-2xl font-bold mb-6">Create Your Profile</h1>
+
+    <!-- Messages block -->
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="bg-{{ message.tags }}-200 text-{{ message.tags }}-700 p-4 rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save Profile</button>
+    </form>
+</div>
+{% endblock content %}
